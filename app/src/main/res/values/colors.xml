@@ -7,4 +7,30 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App palette (Light) -->
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryVariant">#F57C00</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FFC107</color>
+    <color name="colorSecondaryVariant">#FFA000</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorBackground">#FFF3E0</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#212121</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#616161</color>
+
+    <!-- App palette (Night) -->
+    <color name="colorPrimary_night">#FFB74D</color>
+    <color name="colorPrimaryVariant_night">#F57C00</color>
+    <color name="colorOnPrimary_night">#000000</color>
+    <color name="colorSecondary_night">#FFD54F</color>
+    <color name="colorSecondaryVariant_night">#FFA000</color>
+    <color name="colorOnSecondary_night">#000000</color>
+    <color name="colorBackground_night">#121212</color>
+    <color name="colorSurface_night">#1E1E1E</color>
+    <color name="colorOnSurface_night">#FFFFFF</color>
+    <color name="textColorPrimary_night">#FFFFFF</color>
+    <color name="textColorSecondary_night">#BDBDBD</color>
 </resources>
