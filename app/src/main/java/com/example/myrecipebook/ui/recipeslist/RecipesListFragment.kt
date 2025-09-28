@@ -48,8 +48,7 @@ class RecipesListFragment : Fragment() {
             // TODO: show error state/snackbar
         }
 
-        // Trigger initial load
-        viewModel.loadRecipes(limit = 100000, skip = 0)
+        viewModel.loadRecipes(limit = 0, skip = 0)
     }
 
     override fun onDestroyView() {
