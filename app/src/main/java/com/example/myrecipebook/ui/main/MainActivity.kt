@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myrecipebook.databinding.ActivityMainBinding
+import com.example.myrecipebook.ui.recipeslist.RecipesListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,5 +16,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(binding.container.id, RecipesListFragment())
+                .commit()
+        }
     }
 }
