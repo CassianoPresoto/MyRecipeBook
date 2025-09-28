@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import coil.load
 import com.example.myrecipebook.R
 import com.example.myrecipebook.databinding.FragmentRecipeBinding
+import com.google.android.material.chip.Chip
 
 class RecipeFragment : Fragment() {
 
@@ -44,14 +45,21 @@ class RecipeFragment : Fragment() {
                     placeholder(android.R.color.darker_gray)
                 }
                 binding.title.text = recipe.name
-                binding.rating.text = "%.1f".format(recipe.rating)
+                binding.rating.text = getString(R.string.rating_format, recipe.rating)
                 val totalMinutes = recipe.prepTimeMinutes + recipe.cookTimeMinutes
-                binding.time.text = "$totalMinutes min"
-                binding.servings.text = getString(R.string.app_name).let { _ ->
-                    "Servings: ${recipe.servings}"
+                binding.time.text = getString(R.string.time_minutes_format, totalMinutes)
+                binding.servings.text = getString(R.string.servings_format, recipe.servings)
+                binding.difficulty.text =
+                    getString(R.string.difficulty_format, recipe.difficulty.toString())
+                binding.chipGroupTags.removeAllViews()
+                recipe.tags.forEach { tag ->
+                    val chip = Chip(requireContext()).apply {
+                        text = getString(R.string.tag_chip_format, tag)
+                        isClickable = false
+                        isCheckable = false
+                    }
+                    binding.chipGroupTags.addView(chip)
                 }
-                binding.difficulty.text = "Difficulty: ${recipe.difficulty}"
-                binding.tags.text = recipe.tags.joinToString(prefix = "#", separator = "  #")
                 binding.ingredients.text = recipe.ingredients.joinToString(separator = "\n")
                 binding.instructions.text = recipe.instructions.mapIndexed { i, step ->
                     "${i + 1}. $step"
