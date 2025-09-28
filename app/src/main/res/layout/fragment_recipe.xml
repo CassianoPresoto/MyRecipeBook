@@ -76,7 +76,9 @@
             app:singleLine="false"
             app:singleSelection="false"
             app:chipSpacingHorizontal="@dimen/padding_s"
-            tools:text="#Tag  #Tag  #Tag"></com.google.android.material.chip.ChipGroup>
+            tools:text="#Tag  #Tag  #Tag">
+
+        </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:layout_width="match_parent"
