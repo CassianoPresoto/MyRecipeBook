@@ -1,5 +1,7 @@
 package com.example.myrecipebook.ui.recipeslist
 
+import coil.load
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myrecipebook.R
 import com.example.myrecipebook.common.domain.model.Recipe
+import androidx.core.net.toUri
 
 class RecipesAdapter(
     private var items: List<Recipe> = emptyList(),
@@ -45,7 +48,11 @@ class RecipesAdapter(
             time.text = "$totalMinutes min"
             tags.text = item.tags.joinToString(prefix = "#", separator = "  #")
             itemView.setOnClickListener { onClick(item) }
-            image.setBackgroundResource(android.R.color.darker_gray)
+            image.load(item.image) {
+                crossfade(true)
+                placeholder(android.R.color.darker_gray)
+                error(android.R.color.darker_gray)
+            }
             // TODO: Adjust string format
         }
     }

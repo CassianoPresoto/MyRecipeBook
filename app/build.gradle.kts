@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.coil)
     // Networking
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
