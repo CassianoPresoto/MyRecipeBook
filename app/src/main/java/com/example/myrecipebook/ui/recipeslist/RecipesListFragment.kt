@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrecipebook.common.domain.model.Difficulty
 import com.example.myrecipebook.common.domain.model.Recipe
 import com.example.myrecipebook.databinding.FragmentRecipesListBinding
+import androidx.fragment.app.viewModels
 
 class RecipesListFragment : Fragment() {
 
     private var _binding: FragmentRecipesListBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: RecipesAdapter
+    private val viewModel: RecipesListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,50 +32,23 @@ class RecipesListFragment : Fragment() {
         adapter = RecipesAdapter(onClick = { /* TODO: open recipe details */ })
         binding.recyclerRecipesList.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerRecipesList.adapter = adapter
-        adapter.submitList(sampleRecipes())
+
+        viewModel.recipes.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
+        }
+        viewModel.loading.observe(viewLifecycleOwner) {
+            // TODO: show/hide progress bar in layout
+        }
+        viewModel.error.observe(viewLifecycleOwner) {
+            // TODO: show error state/snackbar
+        }
+
+        // Trigger initial load
+        viewModel.loadRecipes(limit = 100000, skip = 0)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun sampleRecipes(): List<Recipe> = listOf(
-        Recipe(
-            id = 1,
-            name = "Classic Margherita Pizza",
-            ingredients = emptyList(),
-            instructions = emptyList(),
-            prepTimeMinutes = 20,
-            cookTimeMinutes = 15,
-            servings = 4,
-            difficulty = Difficulty.Easy,
-            cuisine = "Italian",
-            caloriesPerServing = 300,
-            tags = listOf("Pizza", "Italian"),
-            userId = 0,
-            image = "",
-            rating = 4.6,
-            reviewCount = 0,
-            mealType = listOf("Dinner")
-        ),
-        Recipe(
-            id = 1,
-            name = "Classic Margherita Pizza",
-            ingredients = emptyList(),
-            instructions = emptyList(),
-            prepTimeMinutes = 20,
-            cookTimeMinutes = 15,
-            servings = 4,
-            difficulty = Difficulty.Easy,
-            cuisine = "Italian",
-            caloriesPerServing = 300,
-            tags = listOf("Pizza", "Italian"),
-            userId = 0,
-            image = "",
-            rating = 4.6,
-            reviewCount = 0,
-            mealType = listOf("Dinner")
-        )
-    )
 }
