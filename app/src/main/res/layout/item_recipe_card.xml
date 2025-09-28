@@ -51,7 +51,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/description_text_size"
-                tools:text="★ 4.8"/>
+                app:drawableStartCompat="@drawable/star_ic"
+                android:drawablePadding="@dimen/padding_xs"
+                android:tint="?attr/colorSecondary"
+                tools:text="4.8"/>
 
             <TextView
                 android:id="@+id/time"
