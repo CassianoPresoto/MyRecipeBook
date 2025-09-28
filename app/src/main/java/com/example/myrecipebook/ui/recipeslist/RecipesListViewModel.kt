@@ -25,8 +25,8 @@ class RecipesListViewModel : ViewModel() {
     fun loadRecipes(limit: Int? = null, skip: Int? = null) {
         _loading.value = true
         _error.value = null
-        val ds = NetworkProvider.recipesDataSource
-        val d = ds.getRecipes(limit, skip)
+        val dataSource = NetworkProvider.recipesDataSource
+        val disposable = dataSource.getRecipes(limit, skip)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.recipes }
@@ -40,7 +40,7 @@ class RecipesListViewModel : ViewModel() {
                     _loading.value = false
                 }
             )
-        disposables.add(d)
+        disposables.add(disposable)
     }
 
     override fun onCleared() {
