@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_m"
-            android:textStyle="bold"
             android:textSize="@dimen/title_text_size"
+            android:textStyle="bold"
             tools:text="Classic Margherita Pizza" />
 
         <LinearLayout
@@ -38,10 +38,10 @@
                 android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/description_text_size"
-                app:drawableStartCompat="@drawable/star_ic"
                 android:drawablePadding="@dimen/padding_xs"
+                android:textSize="@dimen/description_text_size"
                 android:tint="?attr/colorSecondary"
+                app:drawableStartCompat="@drawable/star_ic"
                 tools:text="4.8" />
 
             <TextView
@@ -74,43 +74,75 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleLine="false"
-            app:singleSelection="false"
-            app:chipSpacingHorizontal="@dimen/padding_s"
-            tools:text="#Tag  #Tag  #Tag">
+            app:singleSelection="false">
 
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="#Tag" />
         </com.google.android.material.chip.ChipGroup>
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_l"
-            android:textStyle="bold"
-            android:textSize="@dimen/title_text_size"
-            android:text="@string/ingredients_title" />
+            android:layout_marginTop="@dimen/padding_l">
 
-        <TextView
-            android:id="@+id/ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_s"
-            android:textSize="@dimen/description_text_size"
-            tools:text="- Tomato\n- Mozzarella\n- Basil" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_content_padding">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_l"
-            android:textStyle="bold"
-            android:textSize="@dimen/title_text_size"
-            android:text="@string/instructions_title" />
+                <TextView
+                    android:id="@+id/ingredients_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_s"
+                    android:text="@string/ingredients_title"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorSecondary" />
 
-        <TextView
-            android:id="@+id/instructions"
+                <TextView
+                    android:id="@+id/ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/description_text_size"
+                    tools:text="- Tomato\n- Mozzarella\n- Basil" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_s"
-            android:textSize="@dimen/description_text_size"
-            tools:text="1. Preheat oven\n\n2. Spread sauce\n\n3. Bake" />
+            android:layout_marginTop="@dimen/padding_l">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_content_padding">
+
+                <TextView
+                    android:id="@+id/instructions_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_s"
+                    android:text="@string/instructions_title"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorSecondary" />
+
+                <TextView
+                    android:id="@+id/instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/description_text_size"
+                    tools:text="1. Preheat oven\n\n2. Spread sauce\n\n3. Bake" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>

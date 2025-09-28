@@ -7,4 +7,5 @@
     <string name="tag_chip_format">#%1$s</string>
     <string name="ingredients_title">Ingredients</string>
     <string name="instructions_title">Instructions</string>
+    <string name="ingredient_item_format">- %1$s</string>
 </resources>
