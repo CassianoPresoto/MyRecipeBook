@@ -15,6 +15,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:importantForAccessibility="no"
             android:scaleType="centerCrop"
             tools:src="@android:color/darker_gray" />
 
@@ -68,14 +69,14 @@
                 tools:text="Difficulty: Easy" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tags"
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupTags"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_s"
-            android:textSize="@dimen/small_text_size"
-            android:textColor="@android:color/darker_gray"
-            tools:text="#Italian  #Dinner" />
+            app:singleLine="false"
+            app:singleSelection="false"
+            app:chipSpacingHorizontal="@dimen/padding_s"
+            tools:text="#Tag  #Tag  #Tag"></com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:layout_width="match_parent"
@@ -83,7 +84,7 @@
             android:layout_marginTop="@dimen/padding_l"
             android:textStyle="bold"
             android:textSize="@dimen/title_text_size"
-            android:text="Ingredients" />
+            android:text="@string/ingredients_title" />
 
         <TextView
             android:id="@+id/ingredients"
@@ -99,7 +100,7 @@
             android:layout_marginTop="@dimen/padding_l"
             android:textStyle="bold"
             android:textSize="@dimen/title_text_size"
-            android:text="Instructions" />
+            android:text="@string/instructions_title" />
 
         <TextView
             android:id="@+id/instructions"
