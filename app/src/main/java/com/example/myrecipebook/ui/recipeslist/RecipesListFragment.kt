@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myrecipebook.common.domain.model.Difficulty
-import com.example.myrecipebook.common.domain.model.Recipe
-import com.example.myrecipebook.databinding.FragmentRecipesListBinding
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myrecipebook.R
+import com.example.myrecipebook.databinding.FragmentRecipesListBinding
+import com.example.myrecipebook.ui.main.MainActivity
+import com.example.myrecipebook.ui.recipe.RecipeFragment
 
 class RecipesListFragment : Fragment() {
 
@@ -19,9 +20,7 @@ class RecipesListFragment : Fragment() {
     private val viewModel: RecipesListViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRecipesListBinding.inflate(inflater, container, false)
         return binding.root
@@ -29,7 +28,13 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = RecipesAdapter(onClick = { /* TODO: open recipe details */ })
+        adapter = RecipesAdapter(onClick = { recipe ->
+            val fragment = RecipeFragment.newInstance(recipe.id)
+            parentFragmentManager.beginTransaction().replace(
+                (requireActivity() as MainActivity).findViewById<View>(R.id.container).id,
+                fragment
+            ).addToBackStack(null).commit()
+        })
         binding.recyclerRecipesList.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerRecipesList.adapter = adapter
 
