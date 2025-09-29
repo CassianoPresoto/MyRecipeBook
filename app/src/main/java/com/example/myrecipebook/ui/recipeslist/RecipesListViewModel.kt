@@ -32,7 +32,10 @@ class RecipesListViewModel : ViewModel() {
             .map { it.recipes }
             .subscribe(
                 { list ->
-                    _recipes.value = list
+                    val current = _recipes.value
+                    if (current == null || current != list) {
+                        _recipes.value = list
+                    }
                     _loading.value = false
                 },
                 { t ->
