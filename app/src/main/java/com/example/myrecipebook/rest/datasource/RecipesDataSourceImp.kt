@@ -6,10 +6,6 @@ import com.example.myrecipebook.rest.api.RecipesRequest
 import com.example.myrecipebook.rest.mapper.RecipeMapper
 import io.reactivex.rxjava3.core.Single
 
-/**
- * Implementação concreta da fonte de dados remota usando DummyJSON.
- * Mapeia DTOs para modelos de domínio e expõe apenas domínio.
- */
 class RecipesDataSourceImp(
     private val api: RecipesRequest
 ) : RecipesDataSource {

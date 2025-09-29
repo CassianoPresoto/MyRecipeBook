@@ -1,4 +1,4 @@
-package com.example.myrecipebook.rest.message
+package com.example.myrecipebook.common.domain.model
 
 data class RecipeMessage(
     val id: Int,

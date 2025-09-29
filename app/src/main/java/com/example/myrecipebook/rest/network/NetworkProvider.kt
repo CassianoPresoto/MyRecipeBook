@@ -2,10 +2,10 @@ package com.example.myrecipebook.rest.network
 
 import com.example.myrecipebook.BuildConfig
 import com.example.myrecipebook.rest.api.RecipesRequest
-import com.example.myrecipebook.rest.datasource.RecipesDataSourceImp
 import com.example.myrecipebook.rest.datasource.RecipesDataSource
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.myrecipebook.rest.datasource.RecipesDataSourceImp
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,10 +14,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Central point to build and provide network stack components.
- * Keeps REST implementation details hidden from upper layers.
- */
+
 object NetworkProvider {
 
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {

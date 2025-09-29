@@ -3,6 +3,9 @@ package com.example.myrecipebook.common.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 object NetworkUtils {
     
@@ -15,9 +18,9 @@ object NetworkUtils {
     }
     
     fun isNetworkError(throwable: Throwable): Boolean {
-        return throwable is java.net.UnknownHostException ||
-                throwable is java.net.ConnectException ||
-                throwable is java.net.SocketTimeoutException ||
+        return throwable is UnknownHostException ||
+                throwable is ConnectException ||
+                throwable is SocketTimeoutException ||
                 throwable.message?.contains("Unable to resolve host", ignoreCase = true) == true
     }
 }

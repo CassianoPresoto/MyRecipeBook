@@ -2,13 +2,10 @@ package com.example.myrecipebook.rest.mapper
 
 import com.example.myrecipebook.common.domain.model.Difficulty
 import com.example.myrecipebook.common.domain.model.Recipe
+import com.example.myrecipebook.common.domain.model.RecipeMessage
 import com.example.myrecipebook.common.domain.model.RecipesPage
-import com.example.myrecipebook.rest.message.RecipeMessage
-import com.example.myrecipebook.rest.message.RecipesPageMessage
+import com.example.myrecipebook.common.domain.model.RecipesPageMessage
 
-/**
- * Maps REST DTOs to domain models.
- */
 object RecipeMapper {
 
     fun toDomain(message: RecipeMessage): Recipe = Recipe(
