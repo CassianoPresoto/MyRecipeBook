@@ -1,6 +1,8 @@
 package com.example.myrecipebook.ui.recipe
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.fragment.app.viewModels
 import coil.load
 import com.example.myrecipebook.R
 import com.example.myrecipebook.common.domain.model.Recipe
+import com.example.myrecipebook.common.utils.NetworkUtils
 import com.example.myrecipebook.databinding.FragmentRecipeBinding
 import com.google.android.material.chip.Chip
 
@@ -37,6 +40,15 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = requireArguments().getInt(ARG_RECIPE_ID)
+        observeViewModel()
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            viewModel.loadRecipe(id)
+        } else {
+            showNetworkErrorDialog(id)
+        }
+    }
+
+    private fun observeViewModel() {
         viewModel.recipe.observe(viewLifecycleOwner) { recipe ->
             if (recipe != null) {
                 loadImage(recipe.image)
@@ -46,8 +58,32 @@ class RecipeFragment : Fragment() {
                 instructions(recipe.instructions)
             }
         }
+        
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                if (NetworkUtils.isNetworkError(Exception(error))) {
+                    showNetworkErrorDialog(requireArguments().getInt(ARG_RECIPE_ID))
+                }
+            }
+        }
+    }
 
-        viewModel.loadRecipe(id)
+    private fun showNetworkErrorDialog(recipeId: Int) {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle(R.string.network_error_recipe_dialog_title)
+            .setMessage(R.string.network_error_recipe_dialog_message)
+            .setPositiveButton(R.string.network_error_retry) { _, _ ->
+                if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                    viewModel.loadRecipe(recipeId)
+                } else {
+                    showNetworkErrorDialog(recipeId)
+                }
+            }
+            .setNegativeButton(R.string.network_error_settings) { _, _ ->
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onDestroyView() {
