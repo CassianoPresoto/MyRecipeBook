@@ -1,6 +1,9 @@
 package com.example.myrecipebook.ui.recipeslist
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrecipebook.R
+import com.example.myrecipebook.common.utils.NetworkUtils
 import com.example.myrecipebook.databinding.FragmentRecipesListBinding
 import com.example.myrecipebook.ui.main.MainActivity
 import com.example.myrecipebook.ui.recipe.RecipeFragment
@@ -29,26 +33,108 @@ class RecipesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = RecipesAdapter(onClick = { recipe ->
-            val fragment = RecipeFragment.newInstance(recipe.id)
-            parentFragmentManager.beginTransaction().replace(
-                (requireActivity() as MainActivity).findViewById<View>(R.id.container).id,
-                fragment
-            ).addToBackStack(null).commit()
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                val fragment = RecipeFragment.newInstance(recipe.id)
+                parentFragmentManager.beginTransaction().replace(
+                    (requireActivity() as MainActivity).findViewById<View>(R.id.container).id,
+                    fragment
+                ).addToBackStack(null).commit()
+            } else {
+                showNetworkErrorDialog()
+            }
         })
         binding.recyclerRecipesList.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerRecipesList.adapter = adapter
 
+        setupErrorHandling()
+        observeViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            viewModel.loadRecipes(limit = 0, skip = 0)
+        } else {
+            showNetworkError()
+        }
+    }
+
+    private fun observeViewModel() {
         viewModel.recipes.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
-        }
-        viewModel.loading.observe(viewLifecycleOwner) {
-            // TODO: show/hide progress bar in layout
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            // TODO: show error state/snackbar
+            showContent()
         }
 
-        viewModel.loadRecipes(limit = 0, skip = 0)
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                showLoading()
+            } else {
+                showContent()
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                if (NetworkUtils.isNetworkError(Exception(error))) {
+                    showNetworkError()
+                } else {
+                    showGenericError(error)
+                }
+            }
+        }
+    }
+
+    private fun setupErrorHandling() {
+        binding.retryButton.setOnClickListener {
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                viewModel.loadRecipes(limit = 0, skip = 0)
+            } else {
+                showNetworkError()
+            }
+        }
+
+        binding.settingsButton.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+        }
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerRecipesList.visibility = View.GONE
+        binding.errorLayout.visibility = View.GONE
+    }
+
+    private fun showContent() {
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerRecipesList.visibility = View.VISIBLE
+        binding.errorLayout.visibility = View.GONE
+    }
+
+    private fun showNetworkError() {
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerRecipesList.visibility = View.GONE
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.errorTitle.text = getString(R.string.network_error_title)
+        binding.errorMessage.text = getString(R.string.network_error_message)
+    }
+
+    private fun showGenericError(message: String) {
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerRecipesList.visibility = View.GONE
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.errorTitle.text = getString(R.string.error)
+        binding.errorMessage.text = message
+    }
+
+    private fun showNetworkErrorDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.network_error_recipe_dialog_title)
+            .setMessage(R.string.network_error_recipe_dialog_message)
+            .setPositiveButton(R.string.network_error_settings) { _, _ ->
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     override fun onDestroyView() {

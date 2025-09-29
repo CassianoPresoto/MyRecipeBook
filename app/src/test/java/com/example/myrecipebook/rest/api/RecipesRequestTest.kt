@@ -1,7 +1,7 @@
 package com.example.myrecipebook.rest.api
 
-import com.example.myrecipebook.rest.message.RecipeMessage
-import com.example.myrecipebook.rest.message.RecipesPageMessage
+import com.example.myrecipebook.common.domain.model.RecipeMessage
+import com.example.myrecipebook.common.domain.model.RecipesPageMessage
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.mockwebserver.MockResponse
