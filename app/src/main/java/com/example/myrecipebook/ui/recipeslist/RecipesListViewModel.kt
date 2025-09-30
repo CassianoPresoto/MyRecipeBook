@@ -29,7 +29,7 @@ class RecipesListViewModel : ViewModel() {
         val disposable = dataSource.getRecipes(limit, skip)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.recipes }
+            .map { it.items }
             .subscribe(
                 { list ->
                     val current = _recipes.value

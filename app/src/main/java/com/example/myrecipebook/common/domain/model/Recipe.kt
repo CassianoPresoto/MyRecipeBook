@@ -1,5 +1,8 @@
 package com.example.myrecipebook.common.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Recipe(
     val id: Int,
     val name: String,
@@ -19,6 +22,7 @@ data class Recipe(
     val mealType: List<String>
 )
 
+@Serializable
 enum class Difficulty {
     Easy,
     Medium,

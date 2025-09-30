@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -61,12 +62,12 @@ dependencies {
     implementation(libs.coil)
     // Networking
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.retrofit.adapter.rxjava3)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
 
     // ReactiveX
     implementation(libs.rxjava3)
