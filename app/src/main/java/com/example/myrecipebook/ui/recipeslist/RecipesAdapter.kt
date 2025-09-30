@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.request.CachePolicy
 import com.example.myrecipebook.R
 import com.example.myrecipebook.common.domain.model.Recipe
 
@@ -47,6 +48,8 @@ class RecipesAdapter(
                 crossfade(true)
                 placeholder(android.R.color.darker_gray)
                 error(android.R.color.darker_gray)
+                memoryCachePolicy(CachePolicy.ENABLED)
+                diskCachePolicy(CachePolicy.ENABLED)
             }
         }
     }

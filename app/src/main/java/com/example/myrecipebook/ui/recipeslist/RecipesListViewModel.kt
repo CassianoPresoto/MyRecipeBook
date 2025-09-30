@@ -22,20 +22,24 @@ class RecipesListViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    fun loadRecipes(limit: Int? = null, skip: Int? = null) {
+    private var currentSkip = 0
+    private val pageLimit = 10
+
+    fun loadRecipes(append: Boolean = false) {
         _loading.value = true
         _error.value = null
+        
+        val skip = if (append) currentSkip else 0
         val dataSource = NetworkProvider.recipesDataSource
-        val disposable = dataSource.getRecipes(limit, skip)
+        val disposable = dataSource.getRecipes(limit = pageLimit, skip = skip)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.items }
             .subscribe(
                 { list ->
-                    val current = _recipes.value
-                    if (current == null || current != list) {
-                        _recipes.value = list
-                    }
+                    val current = _recipes.value.orEmpty()
+                    _recipes.value = if (append) current + list else list
+                    currentSkip = if (append) currentSkip + list.size else list.size
                     _loading.value = false
                 },
                 { t ->
@@ -44,6 +48,15 @@ class RecipesListViewModel : ViewModel() {
                 }
             )
         disposables.add(disposable)
+    }
+
+    fun loadNextPage() {
+        loadRecipes(append = true)
+    }
+
+    fun refresh() {
+        currentSkip = 0
+        loadRecipes(append = false)
     }
 
     override fun onCleared() {
