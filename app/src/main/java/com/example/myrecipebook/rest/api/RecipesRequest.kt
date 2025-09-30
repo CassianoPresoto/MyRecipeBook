@@ -1,7 +1,7 @@
 package com.example.myrecipebook.rest.api
 
-import com.example.myrecipebook.common.domain.model.RecipeMessage
-import com.example.myrecipebook.common.domain.model.RecipesPageMessage
+import com.example.myrecipebook.common.domain.model.Page
+import com.example.myrecipebook.common.domain.model.Recipe
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,10 +12,10 @@ interface RecipesRequest {
     fun getRecipes(
         @Query("limit") limit: Int? = null,
         @Query("skip") skip: Int? = null
-    ): Single<RecipesPageMessage>
+    ): Single<Page<Recipe>>
 
     @GET("recipes/{id}")
     fun getRecipeById(
         @Path("id") id: Int
-    ): Single<RecipeMessage>
+    ): Single<Recipe>
 }
