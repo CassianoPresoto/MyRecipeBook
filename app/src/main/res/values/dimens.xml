@@ -12,6 +12,7 @@
     <dimen name="card_margin">12dp</dimen>
     <dimen name="card_stroke">1dp</dimen>
     <dimen name="card_content_padding">12dp</dimen>
+    <dimen name="corner_image_size">8dp</dimen>
 
     <!-- Recipe specific -->
     <dimen name="recipe_image_height">160dp</dimen>

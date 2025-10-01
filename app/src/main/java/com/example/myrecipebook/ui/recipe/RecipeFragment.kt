@@ -6,6 +6,9 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
@@ -40,6 +43,12 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = requireArguments().getInt(ARG_RECIPE_ID)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recipeContent) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            view.updatePadding(top = systemBars.top, bottom = navigationBars.bottom)
+            insets
+        }
         observeViewModel()
         if (NetworkUtils.isNetworkAvailable(requireContext())) {
             viewModel.loadRecipe(id)
