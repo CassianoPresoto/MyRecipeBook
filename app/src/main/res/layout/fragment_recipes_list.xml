@@ -11,6 +11,7 @@
         android:layout_height="@dimen/fill_parent"
         android:paddingStart="@dimen/padding_m"
         android:paddingEnd="@dimen/padding_m"
+        android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

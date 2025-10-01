@@ -6,17 +6,20 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/recipeContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:padding="@dimen/padding_m">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
             tools:src="@android:color/darker_gray" />
 
         <TextView
