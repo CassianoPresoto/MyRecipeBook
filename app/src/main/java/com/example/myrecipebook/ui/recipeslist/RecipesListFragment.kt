@@ -7,6 +7,9 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myrecipebook.R
 import com.example.myrecipebook.common.utils.NetworkUtils
 import com.example.myrecipebook.databinding.FragmentRecipesListBinding
-import com.example.myrecipebook.ui.main.MainActivity
 import com.example.myrecipebook.ui.recipe.RecipeFragment
 import coil.imageLoader
+import com.example.myrecipebook.ui.main.MainActivity
 
 class RecipesListFragment : Fragment() {
 
@@ -34,6 +37,12 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerRecipesList) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            view.updatePadding(top = systemBars.top, bottom = navigationBars.bottom)
+            insets
+        }
         adapter = RecipesAdapter(onClick = { recipe ->
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
                 val fragment = RecipeFragment.newInstance(recipe.id)

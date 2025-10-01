@@ -12,65 +12,75 @@
         android:orientation="horizontal"
         android:padding="@dimen/card_content_padding">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="@dimen/recipe_image_height"
             android:layout_height="@dimen/recipe_image_height"
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/recipe_image_height"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:layout_marginStart="@dimen/padding_m">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="@dimen/title_text_size"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="Recipe title"/>
-
             <LinearLayout
-                android:id="@+id/metaRow"
+                android:id="@+id/centerContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_s"
-                android:orientation="horizontal">
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/description_text_size"
-                    app:drawableStartCompat="@drawable/star_ic"
-                    android:drawablePadding="@dimen/padding_xs"
-                    android:tint="?attr/colorSecondary"
-                    tools:text="4.8"/>
+                    android:textStyle="bold"
+                    android:textSize="@dimen/title_text_size"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="Recipe title"/>
 
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/metaRow"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_m"
-                    android:textSize="@dimen/description_text_size"
-                    tools:text="35 min"/>
+                    android:layout_marginTop="@dimen/padding_s"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/description_text_size"
+                        app:drawableStartCompat="@drawable/star_ic"
+                        android:drawablePadding="@dimen/padding_xs"
+                        android:tint="?attr/colorSecondary"
+                        tools:text="4.8"/>
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/padding_m"
+                        android:textSize="@dimen/description_text_size"
+                        tools:text="35 min"/>
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_s"
+                android:layout_alignParentBottom="true"
                 android:textSize="@dimen/small_text_size"
                 android:textColor="@android:color/darker_gray"
+                android:maxLines="2"
+                android:ellipsize="end"
                 tools:text="#Italian  #Dinner"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
