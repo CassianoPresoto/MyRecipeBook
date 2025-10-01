@@ -5,6 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import com.example.myrecipebook.BuildConfig
+import com.example.myrecipebook.R
 import com.example.myrecipebook.databinding.ActivityMainBinding
 import com.example.myrecipebook.ui.recipeslist.RecipesListFragment
 
@@ -28,5 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(binding.container.id, RecipesListFragment())
                 .commit()
         }
+
+        binding.versionText.text = getString(R.string.app_version_format, BuildConfig.VERSION_NAME)
     }
 }
