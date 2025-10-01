@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myrecipebook.R
 import com.example.myrecipebook.common.utils.NetworkUtils
 import com.example.myrecipebook.databinding.FragmentRecipesListBinding
 import com.example.myrecipebook.ui.main.MainActivity
 import com.example.myrecipebook.ui.recipe.RecipeFragment
+import coil.imageLoader
 
 class RecipesListFragment : Fragment() {
 
@@ -43,9 +45,12 @@ class RecipesListFragment : Fragment() {
                 showNetworkErrorDialog()
             }
         })
-        binding.recyclerRecipesList.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.initialPrefetchItemCount = 5
+        binding.recyclerRecipesList.layoutManager = layoutManager
         binding.recyclerRecipesList.adapter = adapter
-
+        binding.recyclerRecipesList.setItemViewCacheSize(10)
+        setupInfiniteScroll()
         setupErrorHandling()
         observeViewModel()
     }
@@ -53,7 +58,7 @@ class RecipesListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (NetworkUtils.isNetworkAvailable(requireContext())) {
-            viewModel.loadRecipes(limit = 0, skip = 0)
+            viewModel.loadRecipes()
         } else {
             showNetworkError()
         }
@@ -66,9 +71,10 @@ class RecipesListFragment : Fragment() {
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
+            val hasItems = viewModel.recipes.value?.isNotEmpty() == true
+            if (isLoading && !hasItems) {
                 showLoading()
-            } else {
+            } else if (!isLoading) {
                 showContent()
             }
         }
@@ -84,10 +90,28 @@ class RecipesListFragment : Fragment() {
         }
     }
 
+    private fun setupInfiniteScroll() {
+        binding.recyclerRecipesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                val isLoading = viewModel.loading.value == true
+                if (!isLoading && lastVisibleItem >= totalItemCount - 3 && totalItemCount > 0) {
+                    if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                        viewModel.loadNextPage()
+                    }
+                }
+            }
+        })
+    }
+
     private fun setupErrorHandling() {
         binding.retryButton.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                viewModel.loadRecipes(limit = 0, skip = 0)
+                viewModel.refresh()
             } else {
                 showNetworkError()
             }
@@ -139,6 +163,7 @@ class RecipesListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        requireContext().imageLoader.memoryCache?.clear()
         _binding = null
     }
 }
