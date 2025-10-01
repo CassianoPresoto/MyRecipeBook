@@ -114,7 +114,7 @@ class RecipeFragment : Fragment() {
         binding.time.text = getString(R.string.time_minutes_format, totalMinutes)
         binding.servings.text = getString(R.string.servings_format, recipe.servings)
         binding.difficulty.text =
-            getString(R.string.difficulty_format, recipe.difficulty.toString())
+            getString(R.string.difficulty_format, recipe.difficulty)
     }
 
     private fun renderTags(tags: List<String>) {
