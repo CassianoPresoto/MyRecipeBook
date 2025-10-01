@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyRecipeBook</string>
+    <string name="app_name">My Recipe Book</string>
     <string name="difficulty_format">Difficulty: %1$s</string>
     <string name="servings_format">Servings: %1$d</string>
     <string name="time_minutes_format">%1$d min</string>
@@ -17,4 +17,5 @@
     <string name="network_error_recipe_dialog_message">Internet connection is required to view recipe details.</string>
     <string name="cancel">Cancel</string>
     <string name="error">Error</string>
+    <string name="app_version_format">v%1$s</string>
 </resources>

@@ -4,6 +4,18 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val versionMajor = project.property("version.major").toString().toInt()
+val versionMinor = project.property("version.minor").toString().toInt()
+val versionPatch = project.property("version.patch").toString().toInt()
+val versionTag = project.property("version.tag").toString()
+
+val appVersionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
+val appVersionName = if (versionTag.isNotEmpty()) {
+    "$versionMajor.$versionMinor.$versionPatch-$versionTag"
+} else {
+    "$versionMajor.$versionMinor.$versionPatch"
+}
+
 android {
     namespace = "com.example.myrecipebook"
     compileSdk = 36
@@ -12,12 +24,11 @@ android {
         applicationId = "com.example.myrecipebook"
         minSdk = 27
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Expose base URL to BuildConfig so it can be swapped per variant
         buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
     }
 
@@ -29,7 +40,6 @@ android {
 
     buildTypes {
         debug {
-            // Example: point to a mock server or staging if needed
             buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
         }
         release {
