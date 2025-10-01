@@ -59,7 +59,7 @@ app/src/main/java/com/example/myrecipebook/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/CassianoPresoto/MyRecipeBook.git
    cd MyRecipeBook
    ```
 
